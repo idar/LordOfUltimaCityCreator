@@ -2,6 +2,7 @@ package idar.loup;
 
 import idar.loup.buildings.Building;
 import idar.loup.buildings.BuildingFactory;
+import org.jgap.IChromosome;
 
 import java.util.ArrayList;
 import java.util.List;
