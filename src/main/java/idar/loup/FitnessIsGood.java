@@ -15,7 +15,7 @@ public class FitnessIsGood extends FitnessFunction{
     protected double evaluate(IChromosome iChromosome) {
         String chromosone = createString(iChromosome);
         map.setShortString(chromosone);
-        System.out.println(chromosone + " "  + map.getWoodProduction());
+        //System.out.println(chromosone + " "  + map.getWoodProduction());
         return map.getWoodProduction();
     }
 

@@ -11,15 +11,14 @@ public class Map {
 
     public Building[][] array = new Building[21][21];
     private String shortShareString;
+    private int dimensions;
 
     public Map(String sharestring){
         //System.out.println(sharestring.length());
-        if(sharestring.length() != 21*21) {
-            throw new RuntimeException("Sharestring must be "+21*21+" characters long");
-        }
+        dimensions = (int)java.lang.Math.sqrt(new Double(sharestring.length()));
         int pos = 0;
-        for(int i = 0; i< 21; i++){
-            for(int j = 0; j<21;j++){
+        for(int i = 0; i< dimensions; i++){
+            for(int j = 0; j<dimensions;j++){
                 array[i][j] = BuildingFactory.create(""+sharestring.charAt(pos++));
             }
         }
@@ -27,8 +26,8 @@ public class Map {
 
     public String getShareString(){
          String str = "";
-        for(int i = 0; i<21;i++){
-            for(int j = 0; j<21;j++){
+        for(int i = 0; i<dimensions;i++){
+            for(int j = 0; j<dimensions;j++){
                 str += array[i][j];
             }
         }
@@ -37,8 +36,8 @@ public class Map {
 
     public String toString(){
         String str = "";
-        for(int i = 0; i<21;i++){
-            for(int j = 0; j<21;j++){
+        for(int i = 0; i<dimensions;i++){
+            for(int j = 0; j<dimensions;j++){
                 str += array[i][j];
             }
             str+="\n";
@@ -61,8 +60,8 @@ public class Map {
 
     public int getWoodProduction(){
         int woodproduction = 0;
-        for(int i = 1; i<20;i++){
-            for(int j = 1; j<20;j++){
+        for(int i = 1; i<dimensions-1;i++){
+            for(int j = 1; j<dimensions-1;j++){
                 woodproduction += array[i][j].getWoodProduction(getNeighbours(i,j));
             }
         }
@@ -71,8 +70,8 @@ public class Map {
 
     public int getStoneProduction() {
         int stoneproduction = 0;
-        for(int i = 1; i<20;i++){
-            for(int j = 1; j<20;j++){
+        for(int i = 1; i<dimensions-1;i++){
+            for(int j = 1; j<dimensions-1;j++){
                 stoneproduction += array[i][j].getStoneProduction(getNeighbours(i,j));
             }
         }
@@ -81,8 +80,8 @@ public class Map {
 
     public String getShortShareString() {
         String str = "";
-        for(int i = 1; i<20;i++){
-            for(int j = 1; j<20;j++){
+        for(int i = 1; i<dimensions-1;i++){
+            for(int j = 1; j<dimensions-1;j++){
                 if(!array[i][j].isUntouchable()){
                     str += array[i][j].toString();
                 }
@@ -94,8 +93,8 @@ public class Map {
     public void setShortString(String shortstring) {
         int z= 0;
         String str = "";
-        for(int i = 1; i<20;i++){
-            for(int j = 1; j<20;j++){
+        for(int i = 1; i<dimensions-1;i++){
+            for(int j = 1; j<dimensions-1;j++){
                 if(!array[i][j].isUntouchable()){
                     array[i][j] = BuildingFactory.create(String.valueOf(shortstring.charAt(z++)));
                 }

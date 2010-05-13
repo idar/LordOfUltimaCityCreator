@@ -1,23 +1,23 @@
-package idar.loup;
+package idar.loup.SimpleAttempt;
 
+import idar.loup.*;
 import org.jgap.*;
 import org.jgap.impl.DefaultConfiguration;
 
 import java.util.List;
 
-public class GARunner {
-    private int populationSize = 20;
-    private Map initialmap;
+public class GArunner {
+
+    private int populationSize = 200;
     private FitnessFunction fitnessFunction;
     private DefaultConfiguration gaConf;
 
-    public GARunner(Map initialmap, FitnessFunction fitnessFunction) {
-        this.initialmap = initialmap;
+    public GArunner(FitnessFunction fitnessFunction) {
         this.fitnessFunction = fitnessFunction;
     }
 
-    public void run(){
-         int numEvolutions = 500;
+    public void run() {
+        int numEvolutions = 500;
         gaConf = new DefaultConfiguration();
         gaConf.setPreservFittestIndividual(true);
         gaConf.setKeepPopulationSizeConstant(false);
@@ -26,22 +26,22 @@ public class GARunner {
 
         int chromeSize;
 
-        chromeSize = initialmap.getShortShareString().length();;
+        chromeSize = 9;
 
         try {
             IChromosome sampleChromosome = new Chromosome(gaConf,
-                    createGenes(gaConf,chromeSize));
+                    createGenes(gaConf, chromeSize));
             gaConf.setSampleChromosome(sampleChromosome);
             gaConf.setPopulationSize(populationSize);
             gaConf.setFitnessFunction(fitnessFunction);
 
             Population population = new Population(gaConf);
-            for(int i = 0; i< populationSize;i++){
+            for (int i = 0; i < populationSize; i++) {
                 sampleChromosome = new Chromosome(gaConf,
-                    createGenes(gaConf,chromeSize));
+                        createGenes(gaConf, chromeSize));
                 population.addChromosome(sampleChromosome);
             }
-            genotype = new Genotype(gaConf,population);
+            genotype = new Genotype(gaConf, population);
         }
         catch (InvalidConfigurationException e) {
             e.printStackTrace();
@@ -54,12 +54,11 @@ public class GARunner {
             // Print progress.
             // ---------------
 
-                List<IChromosome> chromesomes = genotype.getPopulation().getChromosomes();
-                for (IChromosome chromesome : chromesomes) {
-                   System.out.println("Chromosome: " + createString(chromesome));
-                }
-                System.out.println("--------------------");
-      
+
+                System.out.println("Chromosome: " + createString(genotype.getFittestChromosome()) + genotype.getFittestChromosome().getFitnessValue());
+
+            System.out.println("--------------------");
+
         }
         // Print summary.
         // --------------
@@ -68,7 +67,19 @@ public class GARunner {
                 fittest.getFitnessValue());
     }
 
-     private String createString(IChromosome chromosome) {
+    private Gene[] createGenes(DefaultConfiguration gaConf, int chromeSize) {
+        Gene[] genes = new Gene[chromeSize];
+        for (int i = 0; i < chromeSize; i++) {
+            try {
+                genes[i] = new BuildingGene(gaConf, BuildingCode.get(gaConf.getRandomGenerator()));
+            } catch (InvalidConfigurationException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return genes;
+    }
+
+    private String createString(IChromosome chromosome) {
         Gene[] genes = chromosome.getGenes();
         String str = "";
         for (Gene gene : genes) {
@@ -76,20 +87,4 @@ public class GARunner {
         }
         return str;
     }
-
-    private Gene[] createGenes(Configuration gaConf, int chromeSize) {
-        Gene[] array = new Gene[chromeSize];
-        String string = initialmap.getShortShareString();
-        for(int i =0; i<chromeSize;i++){
-            try {
-                array[i] = new BuildingGene(gaConf,String.valueOf(string.charAt(i)));
-                if(gaConf.getRandomGenerator().nextBoolean())array[i].applyMutation(0,-0.6);
-            } catch (InvalidConfigurationException e) {
-                throw new IllegalArgumentException(e);
-            }
-        }
-        return array;
-    }
-
-
 }
