@@ -1,4 +1,4 @@
-package idar.loup.SimpleAttempt;
+package idar.loup.game;
 
 import org.jgap.Gene;
 
@@ -50,7 +50,7 @@ public class Map {
 
     }
 
-    List<BuildingCode> getNeighbours(int i, int j) {
+    public List<BuildingCode> getNeighbours(int i, int j) {
         ArrayList<BuildingCode> neighbours = new ArrayList<BuildingCode>();
         try{neighbours.add(getBuilding(i+1,j));}catch (Exception e){}
         try{neighbours.add(getBuilding(i-1,j));}catch (Exception e){}

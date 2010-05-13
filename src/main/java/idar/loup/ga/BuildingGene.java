@@ -1,5 +1,6 @@
-package idar.loup.SimpleAttempt;
+package idar.loup.ga;
 
+import idar.loup.game.BuildingCode;
 import org.jgap.*;
 
 public class BuildingGene extends BaseGene implements Gene, java.io.Serializable{

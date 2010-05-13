@@ -1,5 +1,7 @@
-package idar.loup.SimpleAttempt;
+package idar.loup;
 
+import idar.loup.ga.BuildingGene;
+import idar.loup.game.BuildingCode;
 import org.jgap.Configuration;
 import org.jgap.InvalidConfigurationException;
 import org.jgap.impl.DefaultConfiguration;
@@ -21,10 +23,10 @@ public class TestBuildingGene {
     public void testUnavailable_means_not_change() throws InvalidConfigurationException {
         BuildingGene testObj = new BuildingGene(configuration, BuildingCode.UNAVAILABLE);
         testObj.applyMutation(0,1.0);
-        assertEquals("#",testObj.getInternalValue());
+        assertEquals("#",testObj.getPersistentRepresentation());
         testObj.setToRandomValue(configuration.getRandomGenerator());
-        assertEquals("#",testObj.getInternalValue());
+        assertEquals("#",testObj.getPersistentRepresentation());
         testObj.setAllele("-");
-        assertEquals("-",testObj.getInternalValue());
+        assertEquals("-",testObj.getPersistentRepresentation());
     }
 }

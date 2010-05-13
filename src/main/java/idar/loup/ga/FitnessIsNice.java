@@ -1,5 +1,6 @@
-package idar.loup.SimpleAttempt;
+package idar.loup.ga;
 
+import idar.loup.game.Map;
 import org.jgap.FitnessFunction;
 import org.jgap.Gene;
 import org.jgap.IChromosome;

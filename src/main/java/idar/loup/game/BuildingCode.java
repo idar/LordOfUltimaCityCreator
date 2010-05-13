@@ -1,4 +1,4 @@
-package idar.loup.SimpleAttempt;
+package idar.loup.game;
 
 import org.jgap.RandomGenerator;
 

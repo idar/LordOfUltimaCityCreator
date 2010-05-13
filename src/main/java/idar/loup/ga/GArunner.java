@@ -1,10 +1,8 @@
-package idar.loup.SimpleAttempt;
+package idar.loup.ga;
 
-import idar.loup.*;
+import idar.loup.game.BuildingCode;
 import org.jgap.*;
 import org.jgap.impl.DefaultConfiguration;
-
-import java.util.List;
 
 public class GArunner {
 

@@ -1,16 +1,37 @@
 package idar.loup;
 
-import org.junit.Ignore;
+import idar.loup.ga.FitnessIsNice;
+import idar.loup.ga.GArunner;
+import org.jgap.Configuration;
+import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.Assert.assertEquals;
+
 public class GaTest {
-    private String sharestring = "#######----##----##----##----#######";
+
+    @Before
+    public void setup(){
+        Configuration.reset();
+    }
+    
+    @Test
+    public void TestGA() {
+        GArunner runner = new GArunner(new FitnessIsNice(), "---------");
+        runner.setPopulationSize(100);
+        runner.setNumEvolutions(200);
+        String chromosome = runner.run();
+        assertEquals(5248,(int)runner.getFitness()); // 5250
+        System.out.println(chromosome);
+    }
 
     @Test
-    @Ignore
-    public void TestGA() {
-        Map map = new Map(sharestring);
-        GARunner runner = new GARunner(map, new FitnessIsGood(sharestring));
-        runner.run();
+    public void testUnavailableBuilding(){
+        GArunner runner = new GArunner(new FitnessIsNice(), "----#----");
+        runner.setPopulationSize(100);
+        runner.setNumEvolutions(200);
+        String chromosome = runner.run();
+        assertEquals(3524,(int)runner.getFitness()); // 3525
+        System.out.println(chromosome);
     }
 }
