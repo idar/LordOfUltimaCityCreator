@@ -41,6 +41,7 @@ public class BuildingGene extends BaseGene implements Gene, java.io.Serializable
 
     @Override
     public void setToRandomValue(RandomGenerator a_numberGenerator) {
+        if(building.isUntouchable()) return;
         building = BuildingCode.get(a_numberGenerator);
     }
 
