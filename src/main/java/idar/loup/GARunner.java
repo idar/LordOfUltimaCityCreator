@@ -20,9 +20,10 @@ public class GARunner {
         gaConf.setPreservFittestIndividual(true);
         gaConf.setKeepPopulationSizeConstant(false);
         Genotype genotype = null;
+
         int chromeSize;
 
-        chromeSize = 21*21;
+        chromeSize = initialmap.getShortShareString().length();;
 
         try {
             IChromosome sampleChromosome = new Chromosome(gaConf,
@@ -63,16 +64,12 @@ public class GARunner {
 
     private Gene[] createGenes(Configuration gaConf, int chromeSize) {
         Gene[] array = new Gene[chromeSize];
-        Map map = new Map(initialmap.getShareString());
-
-        int z = 0;
-        for(int i = 0; i< 21; i++){
-            for(int j = 0; j<21;j++){
-                try {
-                    array[z++] = new BuildingGene(gaConf,map.array[i][j].toString());
-                } catch (InvalidConfigurationException e) {
-                    throw new RuntimeException(e);
-                }
+        String string = initialmap.getShortShareString();
+        for(int i =0; i<chromeSize;i++){
+            try {
+                array[i] = new BuildingGene(gaConf,String.valueOf(string.charAt(i)));
+            } catch (InvalidConfigurationException e) {
+                throw new IllegalArgumentException(e);
             }
         }
         return array;

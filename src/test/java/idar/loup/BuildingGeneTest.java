@@ -31,6 +31,10 @@ public class BuildingGeneTest {
             testObj.setToRandomValue(gaConf.getRandomGenerator());
             assertEquals(BuildingCode.TOWNHALL, testObj.getSign());
         }
+        testObj = new BuildingGene(gaConf, BuildingCode.FARM.value());
+        testObj.setAllele(BuildingCode.TOWNHALL.value());
+        assertEquals(BuildingCode.FARM,testObj.getSign());
+
     }
 
     @Test

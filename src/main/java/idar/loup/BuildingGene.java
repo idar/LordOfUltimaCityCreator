@@ -33,11 +33,15 @@ public class BuildingGene extends BaseGene implements Gene, java.io.Serializable
     }
 
     public void setAllele(Object o) {
-        setAllele(BuildingCode.fromValue((String) o ));
+        setAlleleWithoutRestrictions(BuildingCode.fromValue((String) o ));
+    }
+
+    private void setAlleleWithoutRestrictions(BuildingCode buildingCode) {
+        sign = buildingCode;
     }
 
     public void setAllele(BuildingCode o) {
-        if(sign.isUntouchable()) return;
+        if(initialSign.isUntouchable() || o.isUntouchable()) return;
         if(initialSign.isResource()){
             if((o.isUntouchable() || o.isResource() && !o.equals(initialSign)))return;
         }

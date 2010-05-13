@@ -1,9 +1,5 @@
 package idar.loup;
 
-import org.jgap.*;
-import org.jgap.impl.BooleanGene;
-import org.jgap.impl.DefaultConfiguration;
-import org.jgap.impl.job.MaxFunction;
 import org.junit.Test;
 
 public class GaTest {
@@ -12,7 +8,7 @@ public class GaTest {
     @Test
     public void TestGA() {
         Map map = new Map(sharestring);
-        GARunner runner = new GARunner(map, new FitnessIsGood());
+        GARunner runner = new GARunner(map, new FitnessIsGood(sharestring));
         runner.run();
     }
 }

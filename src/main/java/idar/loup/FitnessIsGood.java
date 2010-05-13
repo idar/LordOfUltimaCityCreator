@@ -5,15 +5,26 @@ import org.jgap.Gene;
 import org.jgap.IChromosome;
 
 public class FitnessIsGood extends FitnessFunction{
+    private Map map;
+
+    public FitnessIsGood(String sharestring) {
+        map = new Map(sharestring);
+    }
+
     @Override
     protected double evaluate(IChromosome iChromosome) {
-        Gene[] genes = iChromosome.getGenes();
-        int fitness = 0;
+        String chromosone = createString(iChromosome);
+        map.setShortString(chromosone);
+        System.out.println(chromosone + " "  + map.getWoodProduction());
+        return map.getWoodProduction();
+    }
+
+    private String createString(IChromosome chromosome) {
+        Gene[] genes = chromosome.getGenes();
+        String str = "";
         for (Gene gene : genes) {
-            if(".".equals(gene.getAllele())){
-                fitness++;
-            }
+            str += gene.getAllele();
         }
-        return fitness;
+        return str;
     }
 }

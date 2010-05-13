@@ -10,9 +10,10 @@ import java.util.List;
 public class Map {
 
     public Building[][] array = new Building[21][21];
+    private String shortShareString;
 
     public Map(String sharestring){
-        System.out.println(sharestring.length());
+        //System.out.println(sharestring.length());
         if(sharestring.length() != 21*21) {
             throw new RuntimeException("Sharestring must be "+21*21+" characters long");
         }
@@ -76,5 +77,29 @@ public class Map {
             }
         }
         return stoneproduction;
+    }
+
+    public String getShortShareString() {
+        String str = "";
+        for(int i = 1; i<20;i++){
+            for(int j = 1; j<20;j++){
+                if(!array[i][j].isUntouchable()){
+                    str += array[i][j].toString();
+                }
+            }
+        }
+        return str;
+    }
+
+    public void setShortString(String shortstring) {
+        int z= 0;
+        String str = "";
+        for(int i = 1; i<20;i++){
+            for(int j = 1; j<20;j++){
+                if(!array[i][j].isUntouchable()){
+                    array[i][j] = BuildingFactory.create(String.valueOf(shortstring.charAt(z++)));
+                }
+            }
+        }
     }
 }
