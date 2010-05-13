@@ -26,6 +26,9 @@ public class Map {
             if(BuildingCode.WOODCUTTER.equals(getBuilding(i,j))){
                 woodproduction += getWoodProduction(getNeighbours(i,j));
             }
+                if(BuildingCode.TOWNHALL.equals(getBuilding(i,j))){
+                    woodproduction += 300;
+                }
 
         }
         return woodproduction;

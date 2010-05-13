@@ -9,6 +9,7 @@ public enum BuildingCode {
     GRASS("-"),
 
     COTTAGE("C"),
+    TOWNHALL("T"),
 
     WOODCUTTER("W"),
 
@@ -42,11 +43,14 @@ public enum BuildingCode {
 
         BuildingCode[] values = BuildingCode.values();
         int n = randomGenerator.nextInt(values.length);
+        while(BuildingCode.TOWNHALL.equals(values[n])){
+            n = randomGenerator.nextInt(values.length);
+        }
         return values[n];
     }
 
     public boolean isUntouchable(){
-        if(BuildingCode.UNAVAILABLE.equals(this) ) return true;
+        if(BuildingCode.UNAVAILABLE.equals(this) || BuildingCode.TOWNHALL.equals(this) ) return true;
         return false;
     }
 

@@ -19,7 +19,7 @@ public class BuildingGene extends BaseGene implements Gene, java.io.Serializable
     @Override
     protected Gene newGeneInternal() {
         try {
-            return new BuildingGene(this.getConfiguration(),building);
+            return new BuildingGene(this.getConfiguration(),BuildingCode.get(this.getConfiguration().getRandomGenerator()));
         } catch (InvalidConfigurationException e) {
             throw new IllegalArgumentException(e);
         }

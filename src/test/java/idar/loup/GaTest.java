@@ -34,4 +34,14 @@ public class GaTest {
         assertEquals(3524,(int)runner.getFitness()); // 3525
         System.out.println(chromosome);
     }
+
+    @Test
+    public void testTownHall(){
+        GArunner runner = new GArunner(new FitnessIsNice(), "----T----");
+        runner.setPopulationSize(100);
+        runner.setNumEvolutions(200);
+        String chromosome = runner.run();
+        assertEquals(3824,(int)runner.getFitness()); // 3825
+        System.out.println(chromosome);
+    }
 }
