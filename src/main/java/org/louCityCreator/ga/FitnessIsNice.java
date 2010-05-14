@@ -33,7 +33,7 @@ public class FitnessIsNice extends FitnessFunction {
             }
         }
         if (buildings > maxBuildings) {
-            return 0.5;
+            return 0.1;
         }
         return 1;
     }
