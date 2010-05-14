@@ -1,8 +1,8 @@
-package idar.loup;
+package org.louCityCreator;
 
-import idar.loup.ga.BuildingGene;
-import idar.loup.game.BuildingCode;
-import idar.loup.game.Map;
+import org.louCityCreator.ga.BuildingGene;
+import org.louCityCreator.game.BuildingCode;
+import org.louCityCreator.game.Map;
 import org.jgap.Configuration;
 import org.jgap.Gene;
 import org.jgap.InvalidConfigurationException;
@@ -15,11 +15,12 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 
 public class MapTest {
-    private DefaultConfiguration configuration = new DefaultConfiguration();
+    private DefaultConfiguration configuration;
 
     @Before
-    public void setup() {
+    public void setup() {        
         Configuration.reset();
+        configuration = new DefaultConfiguration();
     }
 
     @Test

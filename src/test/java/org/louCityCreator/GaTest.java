@@ -1,7 +1,7 @@
-package idar.loup;
+package org.louCityCreator;
 
-import idar.loup.ga.FitnessIsNice;
-import idar.loup.ga.GArunner;
+import org.louCityCreator.ga.FitnessIsNice;
+import org.louCityCreator.ga.GArunner;
 import org.jgap.Configuration;
 import org.junit.Before;
 import org.junit.Test;

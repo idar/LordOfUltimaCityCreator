@@ -1,7 +1,7 @@
-package idar.loup.ga;
+package org.louCityCreator.ga;
 
-import idar.loup.game.BuildingCode;
-import idar.loup.game.Map;
+import org.louCityCreator.game.BuildingCode;
+import org.louCityCreator.game.Map;
 import org.jgap.FitnessFunction;
 import org.jgap.Gene;
 import org.jgap.IChromosome;
@@ -11,6 +11,10 @@ public class FitnessIsNice extends FitnessFunction {
 
     public FitnessIsNice(int maxBuildings) {
         this.maxBuildings = maxBuildings;
+    }
+
+    public FitnessIsNice() {
+        this.maxBuildings = Integer.MAX_VALUE;
     }
 
     @Override

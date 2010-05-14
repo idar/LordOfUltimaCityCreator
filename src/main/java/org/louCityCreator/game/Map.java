@@ -1,4 +1,4 @@
-package idar.loup.game;
+package org.louCityCreator.game;
 
 import org.jgap.Gene;
 

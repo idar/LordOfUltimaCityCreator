@@ -1,7 +1,8 @@
-package idar.loup;
+package org.louCityCreator;
 
-import idar.loup.ga.BuildingGene;
-import idar.loup.game.BuildingCode;
+import org.junit.After;
+import org.louCityCreator.ga.BuildingGene;
+import org.louCityCreator.game.BuildingCode;
 import org.jgap.Configuration;
 import org.jgap.InvalidConfigurationException;
 import org.jgap.impl.DefaultConfiguration;
@@ -12,10 +13,16 @@ import static junit.framework.Assert.assertEquals;
 
 public class TestBuildingGene {
 
-    private DefaultConfiguration configuration = new DefaultConfiguration();
+    private DefaultConfiguration configuration;
 
     @Before
     public void setup() {
+        Configuration.reset();
+        configuration = new DefaultConfiguration();
+    }
+
+    @After
+    public void teardown(){
         Configuration.reset();
     }
 

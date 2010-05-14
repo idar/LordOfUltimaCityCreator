@@ -4,16 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>idar</groupId>
-    <artifactId>LordOfUltimaPlanner</artifactId>
-    <version>1.0</version>
+    <groupId>org.louCityCreator</groupId>
+    <artifactId>LordOfUltimaCityCreator</artifactId>
+    <version>0.1</version>
+
+
     <dependencies>
         <dependency>
             <groupId>jgap</groupId>
             <artifactId>jgap</artifactId>
             <version>3.4.4</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/resources/lib/jgap.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -24,16 +24,71 @@
         </dependency>
     </dependencies>
     <build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-                <source>1.6</source>
-                <target>1.6</target>
-                <encoding>utf-8</encoding>
-            </configuration>
-        </plugin>
-    </plugins>
+        <finalName>loucc</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>hack-binary</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <file>${basedir}/lib/jgap.jar</file>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>jgap</groupId>
+                            <artifactId>jgap</artifactId>
+                            <version>3.4.4</version>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>utf-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>org.louCityCreator.App</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeScope>compile</includeScope>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
     </build>
 </project>
