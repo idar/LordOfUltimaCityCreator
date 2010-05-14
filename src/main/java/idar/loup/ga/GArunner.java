@@ -57,7 +57,7 @@ public class GArunner {
             // ---------------
 
 
-                System.out.println("Chromosome: " + createString(genotype.getFittestChromosome()) + genotype.getFittestChromosome().getFitnessValue());
+            System.out.println("Chromosome: " + createString(genotype.getFittestChromosome()) + genotype.getFittestChromosome().getFitnessValue());
 
             System.out.println("--------------------");
 

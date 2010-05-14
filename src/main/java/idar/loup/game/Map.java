@@ -11,26 +11,26 @@ public class Map {
     private int dimension;
 
     public Map(Gene[] genes) {
-        dimension = (int)java.lang.Math.sqrt(genes.length);
+        dimension = (int) java.lang.Math.sqrt(genes.length);
         buildings = new BuildingCode[genes.length];
-        int i= 0;
+        int i = 0;
         for (Gene gene : genes) {
             buildings[i++] = BuildingCode.fromValue((String) gene.getAllele());
         }
     }
 
-    public int getWoodProduction(){
+    public int getWoodProduction() {
         int woodproduction = 0;
-        for(int i=0;i<dimension;i++)
-            for(int j=0;j<dimension;j++){
-            if(BuildingCode.WOODCUTTER.equals(getBuilding(i,j))){
-                woodproduction += getWoodProduction(getNeighbours(i,j));
-            }
-                if(BuildingCode.TOWNHALL.equals(getBuilding(i,j))){
+        for (int i = 0; i < dimension; i++)
+            for (int j = 0; j < dimension; j++) {
+                if (BuildingCode.WOODCUTTER.equals(getBuilding(i, j))) {
+                    woodproduction += getWoodProduction(getNeighbours(i, j));
+                }
+                if (BuildingCode.TOWNHALL.equals(getBuilding(i, j))) {
                     woodproduction += 300;
                 }
 
-        }
+            }
         return woodproduction;
     }
 
@@ -39,35 +39,60 @@ public class Map {
         double sawmillbonus = 0;
         double workforcebonus = 0;
         for (BuildingCode neighbour : neighbours) {
-            if(neighbour.equals(BuildingCode.COTTAGE)){
+            if (neighbour.equals(BuildingCode.COTTAGE)) {
                 workforcebonus += 0.5;
             }
-            if(neighbour.equals(BuildingCode.SAWMILL)){
-                sawmillbonus=0.75;
+            if (neighbour.equals(BuildingCode.SAWMILL)) {
+                sawmillbonus = 0.75;
             }
-            if(neighbour.equals(BuildingCode.FOREST)){
+            if (neighbour.equals(BuildingCode.FOREST)) {
                 forestbonus += 0.25;
             }
         }
-        return (int) (300 * (1+forestbonus+workforcebonus)*(1+sawmillbonus));
+        return (int) (300 * (1 + forestbonus + workforcebonus) * (1 + sawmillbonus));
 
     }
 
     public List<BuildingCode> getNeighbours(int i, int j) {
         ArrayList<BuildingCode> neighbours = new ArrayList<BuildingCode>();
-        try{neighbours.add(getBuilding(i+1,j));}catch (Exception e){}
-        try{neighbours.add(getBuilding(i-1,j));}catch (Exception e){}
-        try{neighbours.add(getBuilding(i+1,j+1));}catch (Exception e){}
-        try{neighbours.add(getBuilding(i-1,j+1));}catch (Exception e){}
-        try{neighbours.add(getBuilding(i,j+1));}catch (Exception e){}
-        try{neighbours.add(getBuilding(i,j-1));}catch (Exception e){}
-        try{neighbours.add(getBuilding(i+1,j-1));}catch (Exception e){}
-        try{neighbours.add(getBuilding(i-1,j-1));}catch (Exception e){}
+        try {
+            neighbours.add(getBuilding(i + 1, j));
+        } catch (Exception e) {
+        }
+        try {
+            neighbours.add(getBuilding(i - 1, j));
+        } catch (Exception e) {
+        }
+        try {
+            neighbours.add(getBuilding(i + 1, j + 1));
+        } catch (Exception e) {
+        }
+        try {
+            neighbours.add(getBuilding(i - 1, j + 1));
+        } catch (Exception e) {
+        }
+        try {
+            neighbours.add(getBuilding(i, j + 1));
+        } catch (Exception e) {
+        }
+        try {
+            neighbours.add(getBuilding(i, j - 1));
+        } catch (Exception e) {
+        }
+        try {
+            neighbours.add(getBuilding(i + 1, j - 1));
+        } catch (Exception e) {
+        }
+        try {
+            neighbours.add(getBuilding(i - 1, j - 1));
+        } catch (Exception e) {
+        }
         return neighbours;
     }
 
-    public BuildingCode getBuilding(int i, int j){
-        if(i<0||j<0||i>dimension-1||j>dimension-1) throw new IllegalArgumentException("Index out of bounds i:" + i + " j:" + j);
-        return buildings[(j*dimension)+i];        
+    public BuildingCode getBuilding(int i, int j) {
+        if (i < 0 || j < 0 || i > dimension - 1 || j > dimension - 1)
+            throw new IllegalArgumentException("Index out of bounds i:" + i + " j:" + j);
+        return buildings[(j * dimension) + i];
     }
 }

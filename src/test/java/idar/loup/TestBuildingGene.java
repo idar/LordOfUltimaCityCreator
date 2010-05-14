@@ -15,18 +15,18 @@ public class TestBuildingGene {
     private DefaultConfiguration configuration = new DefaultConfiguration();
 
     @Before
-    public void setup(){
+    public void setup() {
         Configuration.reset();
     }
 
     @Test
     public void testUnavailable_means_not_change() throws InvalidConfigurationException {
         BuildingGene testObj = new BuildingGene(configuration, BuildingCode.UNAVAILABLE);
-        testObj.applyMutation(0,1.0);
-        assertEquals("#",testObj.getPersistentRepresentation());
+        testObj.applyMutation(0, 1.0);
+        assertEquals("#", testObj.getPersistentRepresentation());
         testObj.setToRandomValue(configuration.getRandomGenerator());
-        assertEquals("#",testObj.getPersistentRepresentation());
+        assertEquals("#", testObj.getPersistentRepresentation());
         testObj.setAllele("-");
-        assertEquals("-",testObj.getPersistentRepresentation());
+        assertEquals("-", testObj.getPersistentRepresentation());
     }
 }

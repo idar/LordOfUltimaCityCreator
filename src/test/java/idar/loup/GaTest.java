@@ -11,37 +11,47 @@ import static junit.framework.Assert.assertEquals;
 public class GaTest {
 
     @Before
-    public void setup(){
+    public void setup() {
         Configuration.reset();
     }
-    
+
     @Test
     public void TestGA() {
-        GArunner runner = new GArunner(new FitnessIsNice(), "---------");
+        GArunner runner = new GArunner(new FitnessIsNice(9), "---------");
         runner.setPopulationSize(100);
         runner.setNumEvolutions(200);
         String chromosome = runner.run();
-        assertEquals(5248,(int)runner.getFitness()); // 5250
+        assertEquals(5248, (int) runner.getFitness()); // 5250
         System.out.println(chromosome);
     }
 
     @Test
-    public void testUnavailableBuilding(){
-        GArunner runner = new GArunner(new FitnessIsNice(), "----#----");
+    public void testUnavailableBuilding() {
+        GArunner runner = new GArunner(new FitnessIsNice(9), "----#----");
         runner.setPopulationSize(100);
         runner.setNumEvolutions(200);
         String chromosome = runner.run();
-        assertEquals(3524,(int)runner.getFitness()); // 3525
+        assertEquals(3524, (int) runner.getFitness()); // 3525
         System.out.println(chromosome);
     }
 
     @Test
-    public void testTownHall(){
-        GArunner runner = new GArunner(new FitnessIsNice(), "----T----");
+    public void testTownHall() {
+        GArunner runner = new GArunner(new FitnessIsNice(9), "----T----");
         runner.setPopulationSize(100);
         runner.setNumEvolutions(200);
         String chromosome = runner.run();
-        assertEquals(3824,(int)runner.getFitness()); // 3825
+        assertEquals(3824, (int) runner.getFitness()); // 3825
+        System.out.println(chromosome);
+    }
+
+    @Test
+    public void testForest() {
+        GArunner runner = new GArunner(new FitnessIsNice(5), "---.T----");
+        runner.setPopulationSize(100);
+        runner.setNumEvolutions(200);
+        String chromosome = runner.run();
+        assertEquals(2137, (int) runner.getFitness()); 
         System.out.println(chromosome);
     }
 }

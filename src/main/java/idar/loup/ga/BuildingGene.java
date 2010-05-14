@@ -3,12 +3,14 @@ package idar.loup.ga;
 import idar.loup.game.BuildingCode;
 import org.jgap.*;
 
-public class BuildingGene extends BaseGene implements Gene, java.io.Serializable{
+public class BuildingGene extends BaseGene implements Gene, java.io.Serializable {
     private BuildingCode building;
+    private BuildingCode initialBuilding;
 
     public BuildingGene(Configuration a_configuration, BuildingCode building) throws InvalidConfigurationException {
         super(a_configuration);
         this.building = building;
+        this.initialBuilding = building;
     }
 
     @Override
@@ -19,7 +21,7 @@ public class BuildingGene extends BaseGene implements Gene, java.io.Serializable
     @Override
     protected Gene newGeneInternal() {
         try {
-            return new BuildingGene(this.getConfiguration(),BuildingCode.get(this.getConfiguration().getRandomGenerator()));
+            return new BuildingGene(this.getConfiguration(), BuildingCode.get(this.getConfiguration().getRandomGenerator(), initialBuilding));
         } catch (InvalidConfigurationException e) {
             throw new IllegalArgumentException(e);
         }
@@ -32,7 +34,7 @@ public class BuildingGene extends BaseGene implements Gene, java.io.Serializable
 
     @Override
     public String getPersistentRepresentation() throws UnsupportedOperationException {
-          return building.value();
+        return building.value();
     }
 
     @Override
@@ -42,8 +44,8 @@ public class BuildingGene extends BaseGene implements Gene, java.io.Serializable
 
     @Override
     public void setToRandomValue(RandomGenerator a_numberGenerator) {
-        if(building.isUntouchable()) return;
-        building = BuildingCode.get(a_numberGenerator);
+        if (building.isUntouchable()) return;
+        building = BuildingCode.get(a_numberGenerator, initialBuilding);
     }
 
     @Override
@@ -53,7 +55,7 @@ public class BuildingGene extends BaseGene implements Gene, java.io.Serializable
 
     @Override
     public int compareTo(Object o) {
-        return building.value().compareTo((String) ((BuildingGene)o).getInternalValue());
+        return building.value().compareTo((String) ((BuildingGene) o).getInternalValue());
     }
 
     public BuildingCode getBuildingCode() {

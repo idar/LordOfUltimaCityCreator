@@ -39,23 +39,37 @@ public enum BuildingCode {
     }
 
 
-    public static BuildingCode get(RandomGenerator randomGenerator) {
+    public static BuildingCode get(RandomGenerator randomGenerator, BuildingCode initialBuilding) {
 
         BuildingCode[] values = BuildingCode.values();
         int n = randomGenerator.nextInt(values.length);
-        while(BuildingCode.TOWNHALL.equals(values[n])){
+        while (BuildingCode.TOWNHALL.equals(values[n]) || BuildingCode.UNAVAILABLE.equals(values[n]) || isResourceButNotInitalBuilding(values[n], initialBuilding)) {
             n = randomGenerator.nextInt(values.length);
         }
         return values[n];
     }
 
-    public boolean isUntouchable(){
-        if(BuildingCode.UNAVAILABLE.equals(this) || BuildingCode.TOWNHALL.equals(this) ) return true;
+    private static boolean isResourceButNotInitalBuilding(BuildingCode value, BuildingCode initial) {
+        if (value.isResource() && !value.equals(initial)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isUntouchable() {
+        if (BuildingCode.UNAVAILABLE.equals(this) || BuildingCode.TOWNHALL.equals(this)) return true;
         return false;
     }
 
     public boolean isResource() {
-        if(BuildingCode.FOREST.equals(this)) return true;
+        if (BuildingCode.FOREST.equals(this)) return true;
+        return false;
+    }
+
+    public boolean isBuilding() {
+        if (BuildingCode.COTTAGE.equals(this) || BuildingCode.TOWNHALL.equals(this) || BuildingCode.SAWMILL.equals(this) || BuildingCode.WOODCUTTER.equals(this)) {
+            return true;
+        }
         return false;
     }
 }
