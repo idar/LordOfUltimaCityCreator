@@ -35,7 +35,7 @@ public class GArunner {
                     createGenes(gaConf, chromeSize));
             gaConf.setSampleChromosome(sampleChromosome);
             gaConf.setPopulationSize(populationSize);
-            gaConf.setFitnessFunction(fitnessFunction);
+            gaConf.setFitnessFunction(fitnessFunction);            
 
             Population population = new Population(gaConf);
             for (int i = 0; i < populationSize; i++) {
