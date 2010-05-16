@@ -48,7 +48,12 @@ public class App {
         try {
             FileReader reader = new FileReader(file);
             BufferedReader br = new BufferedReader(reader);
-            SharestringParser parser = new SharestringParser(br.readLine());
+            String filestring = "";
+            String s;
+            while((s = br.readLine()) != null) {
+                filestring += s;
+            }
+            SharestringParser parser = new SharestringParser(filestring);
             map = parser.getMap();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);

@@ -6,11 +6,16 @@ public class SharestringParser {
 
     public SharestringParser(String sharestring){
         map = removeSharestringSyntax(sharestring);
+        map = removeNewlines(map);
         dim = (int) Math.sqrt(map.length());
 
         if(dim*dim != map.length()){
             throw new IllegalArgumentException("Sharestring has wrong length " + map.length() + " length should be " + dim*dim);
         }
+    }
+
+    private String removeNewlines(String map) {
+        return map.replaceAll("\n","");
     }
 
     private String removeSharestringSyntax(String sharestring) {
