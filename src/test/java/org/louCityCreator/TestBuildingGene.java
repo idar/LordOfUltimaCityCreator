@@ -36,4 +36,18 @@ public class TestBuildingGene {
         testObj.setAllele("-");
         assertEquals("-", testObj.getPersistentRepresentation());
     }
+
+    @Test
+    public void testSetValue() throws InvalidConfigurationException {
+        BuildingGene testObj = new BuildingGene(configuration,BuildingCode.UNAVAILABLE);
+        testObj.setToValue(BuildingCode.COTTAGE);
+        assertEquals(BuildingCode.UNAVAILABLE,testObj.getBuilding());
+        testObj = new BuildingGene(configuration,BuildingCode.FOREST);
+        testObj.setToValue(BuildingCode.UNAVAILABLE);
+        assertEquals(BuildingCode.FOREST,testObj.getBuilding());
+        testObj = new BuildingGene(configuration, BuildingCode.GRASS);
+        testObj.setToValue(BuildingCode.WOODCUTTER);
+        assertEquals(BuildingCode.WOODCUTTER,testObj.getBuilding());     
+
+    }
 }

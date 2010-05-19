@@ -45,7 +45,7 @@ public class BuildingGene extends BaseGene implements Gene, java.io.Serializable
     @Override
     public void setToRandomValue(RandomGenerator a_numberGenerator) {
         if (building.isUntouchable()) return;
-        building = BuildingCode.get(a_numberGenerator, initialBuilding);
+        setToValue(BuildingCode.get(a_numberGenerator, initialBuilding));
     }
 
     @Override
@@ -53,12 +53,22 @@ public class BuildingGene extends BaseGene implements Gene, java.io.Serializable
         setToRandomValue(this.getConfiguration().getRandomGenerator());
     }
 
+    public void setToValue(BuildingCode value){
+        if(building.isUntouchable() || value.isUntouchable()) return;
+        if(value.isResource() && initialBuilding.isResource() && value != initialBuilding ) return;
+        building = value;
+        
+    }
     @Override
     public int compareTo(Object o) {
         return building.value().compareTo((String) ((BuildingGene) o).getInternalValue());
     }
 
-    public BuildingCode getBuildingCode() {
+    public BuildingCode getInitialBuilding() {
+        return initialBuilding;
+    }
+
+    public BuildingCode getBuilding() {
         return building;
     }
 }

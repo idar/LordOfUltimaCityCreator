@@ -24,6 +24,7 @@ public class GArunner {
         gaConf.setPreservFittestIndividual(true);
         gaConf.setKeepPopulationSizeConstant(false);
 
+
         Genotype genotype = null;
 
         int chromeSize;
@@ -36,7 +37,8 @@ public class GArunner {
             gaConf.setSampleChromosome(sampleChromosome);
             gaConf.setPopulationSize(populationSize);
             gaConf.setFitnessFunction(fitnessFunction);            
-
+            gaConf.addGeneticOperator(new LocalOptimizationOperator(gaConf));
+            
             Population population = new Population(gaConf);
             for (int i = 0; i < populationSize; i++) {
                 sampleChromosome = new Chromosome(gaConf,
