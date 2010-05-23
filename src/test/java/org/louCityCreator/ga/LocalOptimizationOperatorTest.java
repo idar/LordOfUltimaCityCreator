@@ -34,7 +34,7 @@ public class LocalOptimizationOperatorTest {
         genes[7] = new BuildingGene(configuration, BuildingCode.COTTAGE);
         genes[8] = new BuildingGene(configuration, BuildingCode.COTTAGE);
 
-        configuration.setFitnessFunction(new FitnessIsNice(3));
+        configuration.setFitnessFunction(new FitnessIsNice(9));
         Chromosome chromosome = new Chromosome(configuration, genes);
         LocalOptimizationOperator testObj = new LocalOptimizationOperator(configuration, 100);
         int result = testObj.findBestPosition(genes, BuildingCode.WOODCUTTER, 0.0);
@@ -44,7 +44,7 @@ public class LocalOptimizationOperatorTest {
     @Test
     public void testGAWithOperator() throws InvalidConfigurationException {
         Configuration.reset();
-        configuration = new TestConfiguration();
+        configuration = new MyTestConfiguration();
         configuration.addGeneticOperator(new LocalOptimizationOperator(configuration, 1));
 
         BuildingGene[] genes = new BuildingGene[9];
@@ -85,14 +85,14 @@ public class LocalOptimizationOperatorTest {
 
 }
 
-class TestConfiguration extends Configuration implements ICloneable {
+class MyTestConfiguration extends Configuration implements ICloneable {
 
     /**
      * String containing the CVS revision. Read out via reflection!
      */
     private final static String CVS_REVISION = "$Revision: 1.26 $";
 
-    public TestConfiguration() {
+    public MyTestConfiguration() {
         this("", "");
     }
 
@@ -108,7 +108,7 @@ class TestConfiguration extends Configuration implements ICloneable {
      * @author Klaus Meffert
      * @since 1.0
      */
-    public TestConfiguration(String a_id, String a_name) {
+    public MyTestConfiguration(String a_id, String a_name) {
         super(a_id, a_name);
         try {
             setBreeder(new GABreeder());
