@@ -14,7 +14,9 @@ public enum BuildingCode {
     WOODCUTTER("W"),
 
     SAWMILL("L"),
-
+    LAKE(";"),
+    IRON(","),
+    STONE(":"),
     FOREST(".");
 
 
@@ -63,6 +65,9 @@ public enum BuildingCode {
 
     public boolean isResource() {
         if (BuildingCode.FOREST.equals(this)) return true;
+        if (BuildingCode.IRON.equals(this)) return true;
+        if (BuildingCode.STONE.equals(this)) return true;
+        if (BuildingCode.LAKE.equals(this)) return true;
         return false;
     }
 

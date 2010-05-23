@@ -21,7 +21,9 @@ public class FitnessIsNice extends FitnessFunction {
     protected double evaluate(IChromosome chromosome) {
         Gene[] genes = chromosome.getGenes();
         double buildingpenalty = buildingPenalty(genes);
-        return new Map(genes).getWoodProduction() * buildingpenalty;
+        int production = new Map(genes).getWoodProduction();
+        if(buildingpenalty < 0 || production < 0) System.out.println("buildingpenalty " + buildingpenalty + " production " + production); 
+        return production * buildingpenalty;
 
     }
 
@@ -33,7 +35,9 @@ public class FitnessIsNice extends FitnessFunction {
             }
         }
         if (buildings > maxBuildings) {
-            return 1 - ((buildings - maxBuildings) * 0.05);
+            double penalty = 1 - ((buildings - maxBuildings) * 0.05);
+            if(penalty < 0 ) return 0;
+            return penalty;
         }
         return 1;
     }
