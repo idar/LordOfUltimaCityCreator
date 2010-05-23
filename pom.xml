@@ -7,7 +7,7 @@
     <groupId>org.louCityCreator</groupId>
     <artifactId>LordOfUltimaCityCreator</artifactId>
     <version>0.2.1-SNAPSHOT</version>
-
+    <name>Loucc</name>
 
     <dependencies>
         <dependency>
