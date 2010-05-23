@@ -6,6 +6,7 @@ import org.louCityCreator.ga.GArunner;
 import java.io.*;
 import java.util.Vector;
 
+import static java.lang.System.exit;
 import static org.jgap.util.FileKit.readFile;
 
 public class App {
@@ -16,8 +17,9 @@ public class App {
         System.out.println("Lord of Ultima City Layout Creator");
         if (args.length < 1) {
             System.out.println("please run with input. Remeber only square maps");
-            System.out.println("java -jar louclc.jar --------- <maxbuildings>");
-            System.out.println("java -jar -f <file containing sharestring> <maxbuildings>");
+            System.out.println("java -jar loucc.jar --------- <maxbuildings>");
+            System.out.println("java -jar loucc.jar -f <file containing sharestring> <maxbuildings>");
+            exit(0);
         }
 
         parseArgs(args);
