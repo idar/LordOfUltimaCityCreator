@@ -35,7 +35,7 @@ public class FitnessIsNice extends FitnessFunction {
             }
         }
         if (buildings > maxBuildings) {
-            double penalty = 1 - ((buildings - maxBuildings) * 0.05);
+            double penalty = 1 - ((buildings - maxBuildings) * 0.2);
             if(penalty < 0 ) return 0;
             return penalty;
         }
