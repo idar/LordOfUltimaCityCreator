@@ -9,18 +9,119 @@ import org.jgap.InvalidConfigurationException;
 import org.jgap.impl.DefaultConfiguration;
 import org.junit.Before;
 import org.junit.Test;
+import org.louCityCreator.game.MapCorner;
+import org.louCityCreator.game.MapPart;
 
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 public class MapTest {
     private DefaultConfiguration configuration;
+    private String center;
+    private String sharestring;
+    private String topleftCorner;
+    private String topRightCorner;
+    private String bottomLeftCorner;
+    private String bottomRightCorner;
+    private Map testObj;
 
     @Before
-    public void setup() {        
+    public void setup() {
         Configuration.reset();
         configuration = new DefaultConfiguration();
+
+        sharestring = "[ShareString.1.2]:" +
+                "#####################" +
+                "###---.---#-------###" +
+                "##--------#--------##" +
+                "#--..-----#----;----#" +
+                "#-----:--.#---------#" +
+                "#------#######------#" +
+                "#-----##-----##---;-#" +
+                "#--:-##-------##;---#" +
+                "#----#---------#----#" +
+                "#----#--;-WW---#----#" +
+                "######---.TL---######" +
+                "#----#---WWW---#----#" +
+                "#----#---------#----#" +
+                "#---:##-,---.-##----#" +
+                "#-----##-----##--,--#" +
+                "#------#######------#" +
+                "#:-------:#---------#" +
+                "#----:----#-----,---#" +
+                "##------:-#---,----##" +
+                "###-------#-------###" +
+                "#####################";
+
+        center =
+                "###########" +
+                        "###-----###" +
+                        "##-------##" +
+                        "#---------#" +
+                        "#--;-WW---#" +
+                        "#---.TL---#" +
+                        "#---WWW---#" +
+                        "#---------#" +
+                        "##-,---.-##" +
+                        "###-----###" +
+                        "###########";
+
+        topleftCorner =
+                "###########" +
+                        "###---.---#" +
+                        "##--------#" +
+                        "#--..-----#" +
+                        "#-----:--.#" +
+                        "#------####" +
+                        "#-----#####" +
+                        "#--:-######" +
+                        "#----######" +
+                        "#----######" +
+                        "##########T";
+
+        topRightCorner =
+                "###########" +
+                        "#-------###" +
+                        "#--------##" +
+                        "#----;----#" +
+                        "#---------#" +
+                        "####------#" +
+                        "#####---;-#" +
+                        "######;---#" +
+                        "######----#" +
+                        "######----#" +
+                        "T##########";
+
+        bottomLeftCorner =
+                "##########T" +
+                        "#----######" +
+                        "#----######" +
+                        "#---:######" +
+                        "#-----#####" +
+                        "#------####" +
+                        "#:-------:#" +
+                        "#----:----#" +
+                        "##------:-#" +
+                        "###-------#" +
+                        "###########";
+
+        bottomRightCorner =
+                "T##########" +
+                        "######----#" +
+                        "######----#" +
+                        "######----#" +
+                        "#####--,--#" +
+                        "####------#" +
+                        "#---------#" +
+                        "#-----,---#" +
+                        "#---,----##" +
+                        "#-------###" +
+                        "###########";
+
+        SharestringParser parser = new SharestringParser(sharestring);
+        testObj = new Map(createGenes(parser.getMap()));
     }
 
     @Test
@@ -67,5 +168,48 @@ public class MapTest {
             }
         }
         return gene;
+    }
+
+    @Test
+    public void testMapSplitting() {
+        assertTrue(testObj.isComplete());
+
+        String mapTopLeftCorner = testObj.getPart(MapCorner.TOPLEFT).toString();
+        assertEquals(topleftCorner, mapTopLeftCorner);
+
+        String mapTopRightCorner = testObj.getPart(MapCorner.TOPRIGHT).toString();
+        assertEquals(topRightCorner, mapTopRightCorner);
+
+        String mapBottomLeftCorner = testObj.getPart(MapCorner.BOTTOMLEFT).toString();
+        assertEquals(bottomLeftCorner, mapBottomLeftCorner);
+
+        String mapBottomRightCorner = testObj.getPart(MapCorner.BOTTOMRIGHT).toString();
+        assertEquals(bottomRightCorner, mapBottomRightCorner);
+
+        String mapCenter = testObj.getPart(MapCorner.CENTER).toString();
+        assertEquals(center, mapCenter);
+    }
+
+    @Test
+    public void testGetShareString() {
+        assertEquals(sharestring, testObj.getShareString().getCompleteShareString());
+    }
+
+    @Test
+    public void testSetMapCorners() {
+        testObj.setPart(new MapPart(center, MapCorner.CENTER));
+        assertEquals(sharestring, testObj.getShareString().getCompleteShareString());
+
+        testObj.setPart(new MapPart(bottomLeftCorner,MapCorner.BOTTOMLEFT));
+        assertEquals(sharestring, testObj.getShareString().getCompleteShareString());
+
+        testObj.setPart(new MapPart(bottomRightCorner,MapCorner.BOTTOMRIGHT));
+        assertEquals(sharestring, testObj.getShareString().getCompleteShareString());
+
+        testObj.setPart(new MapPart(topleftCorner,MapCorner.TOPLEFT));
+        assertEquals(sharestring, testObj.getShareString().getCompleteShareString());
+
+        testObj.setPart(new MapPart(topRightCorner,MapCorner.TOPRIGHT));
+        assertEquals(sharestring, testObj.getShareString().getCompleteShareString());
     }
 }

@@ -1,10 +1,12 @@
 package org.louCityCreator;
 
 import org.louCityCreator.ga.FitnessIsNice;
-import org.louCityCreator.ga.GArunner;
+import org.louCityCreator.ga.GA;
 import org.jgap.Configuration;
 import org.junit.Before;
 import org.junit.Test;
+import org.louCityCreator.ga.GaRunner;
+import org.louCityCreator.game.ShareString;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -18,7 +20,7 @@ public class GaTest {
 
     @Test
     public void TestGA() {
-        GArunner runner = new GArunner(new FitnessIsNice(9), "---------");
+        GA runner = new GA(new FitnessIsNice(9), "---------");
         runner.setPopulationSize(100);
         runner.setNumEvolutions(20);
         String chromosome = runner.run();
@@ -28,7 +30,7 @@ public class GaTest {
 
     @Test
     public void testUnavailableBuilding() {
-        GArunner runner = new GArunner(new FitnessIsNice(9), "----#----");
+        GA runner = new GA(new FitnessIsNice(9), "----#----");
         runner.setPopulationSize(100);
         runner.setNumEvolutions(20);
         String chromosome = runner.run();
@@ -38,7 +40,7 @@ public class GaTest {
 
     @Test
     public void testTownHall() {
-        GArunner runner = new GArunner(new FitnessIsNice(9), "----T----");
+        GA runner = new GA(new FitnessIsNice(9), "----T----");
         runner.setPopulationSize(100);
         runner.setNumEvolutions(20);
         String chromosome = runner.run();
@@ -48,11 +50,24 @@ public class GaTest {
 
     @Test
     public void testForest() {
-        GArunner runner = new GArunner(new FitnessIsNice(5), "---.T----");
+        GA runner = new GA(new FitnessIsNice(5), "---.T----");
         runner.setPopulationSize(100);
         runner.setNumEvolutions(50);
         String chromosome = runner.run();
         assertEquals(2137, (int) runner.getFitness()); 
         System.out.println(chromosome);
+    }
+
+    @Test
+    public void testShareStringMap(){
+        String sharestring = "########################------,#;-...--#####:-,,--,,#--------###-:--,---,#---------##---------#-------::##------#######------##---,-##----.##-----##--,,##--,,---##----##---,#--,,-,-:-#----##-.-,#-------::#,,--#######-:--T----#######-:--#---------#.---##---:#.-..----:#..--##-,-:##-.---::##.-..##-----##.-;--##---.-##::-.--#######-;----##-----,-::#------:--##--------:#------:::###--------#--,,--:-#####::-;-..#--,----########################";
+        GaRunner runner = new GaRunner(new FitnessIsNice(0), sharestring);
+        runner.setPopulationSize(1);
+        runner.setNumEvolutions(1);
+
+        ShareString result = runner.run();
+        System.out.println(sharestring);
+        System.out.println(result.getSharestring());
+        assertEquals(sharestring, result.getSharestring());
     }
 }

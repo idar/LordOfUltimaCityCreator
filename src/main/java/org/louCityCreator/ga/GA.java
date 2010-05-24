@@ -3,8 +3,11 @@ package org.louCityCreator.ga;
 import org.louCityCreator.game.BuildingCode;
 import org.jgap.*;
 import org.jgap.impl.DefaultConfiguration;
+import org.louCityCreator.game.MapCorner;
 
-public class GArunner {
+import java.util.concurrent.Callable;
+
+public class GA implements Callable<Result>{
 
     private int populationSize = 200;
     private FitnessFunction fitnessFunction;
@@ -13,14 +16,25 @@ public class GArunner {
     private int numEvolutions = 500;
     private double fitness;
 
-    public GArunner(FitnessFunction fitnessFunction, String initialMap) {
+    private MapCorner corner;
+
+    public GA(FitnessFunction fitnessFunction, String initialMap) {
         this.initialMap = initialMap;
         this.fitnessFunction = fitnessFunction;
+        gaConf = new DefaultConfiguration();
+    }
+
+    public GA(FitnessIsNice fitnessFunction, String initialMap, int numEvolutions, int populationSize, DefaultConfiguration gaConf) {
+        this.initialMap = initialMap;
+        this.fitnessFunction = fitnessFunction;
+        this.numEvolutions = numEvolutions;
+        this.populationSize = populationSize;
+        this.gaConf = gaConf;
     }
 
     public String run() {
 
-        gaConf = new DefaultConfiguration();
+
         gaConf.setPreservFittestIndividual(true);
         gaConf.setKeepPopulationSizeConstant(false);
 
@@ -73,7 +87,7 @@ public class GArunner {
         return createString(fittest);
     }
 
-    private Gene[] createGenes(DefaultConfiguration gaConf, int chromeSize) {
+    public Gene[] createGenes(DefaultConfiguration gaConf, int chromeSize) {
         Gene[] genes = new Gene[chromeSize];
         for (int i = 0; i < chromeSize; i++) {
             try {
@@ -104,5 +118,19 @@ public class GArunner {
 
     public double getFitness() {
         return fitness;
+    }
+
+    @Override
+    public Result call() throws Exception {
+        String chromosome = run();
+        return new Result(chromosome,getFitness(),getCorner());
+    }
+
+    public MapCorner getCorner() {
+        return corner;
+    }
+
+    public void setCorner(MapCorner corner) {
+        this.corner = corner;
     }
 }

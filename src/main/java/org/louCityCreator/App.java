@@ -1,13 +1,13 @@
 package org.louCityCreator;
 
 import org.louCityCreator.ga.FitnessIsNice;
-import org.louCityCreator.ga.GArunner;
+import org.louCityCreator.ga.GA;
+import org.louCityCreator.ga.GaRunner;
+import org.louCityCreator.game.ShareString;
 
 import java.io.*;
-import java.util.Vector;
 
 import static java.lang.System.exit;
-import static org.jgap.util.FileKit.readFile;
 
 public class App {
     private static String map;
@@ -24,13 +24,16 @@ public class App {
 
         parseArgs(args);
 
-        GArunner runner = new GArunner(new FitnessIsNice(maxBuildings), map);
+        GaRunner runner = new GaRunner(new FitnessIsNice(maxBuildings), map);
         runner.setPopulationSize(100);
         runner.setNumEvolutions(200);
-        String chromosome = runner.run();
+        ShareString shareString = runner.run();
+        String chromosome = shareString.getSharestring();
         System.out.println("Winning design:");
         print(chromosome);
         System.out.println();
+        System.out.println("Copy Paste to CityPlanner:");
+        System.out.println(shareString.getCompleteShareString());
     }
 
     private static void parseArgs(String... args) {

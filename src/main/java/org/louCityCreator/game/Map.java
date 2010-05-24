@@ -19,6 +19,14 @@ public class Map {
         }
     }
 
+    public Map(String initialMap) {
+        dimension = (int) java.lang.Math.sqrt(initialMap.length());
+        buildings = new BuildingCode[initialMap.length()];
+        for (int i = 0; i < initialMap.length(); i++)
+            buildings[i] = BuildingCode.fromValue(String.valueOf(initialMap.charAt(i)));
+
+    }
+
     public int getWoodProduction() {
         int woodproduction = 0;
         for (int i = 0; i < dimension; i++)
@@ -94,5 +102,149 @@ public class Map {
         if (i < 0 || j < 0 || i > dimension - 1 || j > dimension - 1)
             throw new IllegalArgumentException("Index out of bounds i:" + i + " j:" + j);
         return buildings[(j * dimension) + i];
+    }
+
+    public void setBuilding(int i, int j, BuildingCode value) {
+        if (i < 0 || j < 0 || i > dimension - 1 || j > dimension - 1)
+            throw new IllegalArgumentException("Index out of bounds i:" + i + " j:" + j);
+        buildings[(j * dimension) + i] = value;
+    }
+
+    private MapPart getTopLeftCorner() {
+        return new MapPart(getCorner(0, 0), MapCorner.TOPLEFT);
+    }
+
+    private MapPart getTopRightCorner() {
+
+        return new MapPart(getCorner(10, 0), MapCorner.TOPRIGHT);
+    }
+
+    private MapPart getBottomLeftCorner() {
+        return new MapPart(getCorner(0, 10), MapCorner.BOTTOMLEFT);
+    }
+
+    private MapPart getBottomRightCorner() {
+        return new MapPart(getCorner(10, 10), MapCorner.BOTTOMRIGHT);
+    }
+
+
+    private String getCorner(int istart, int jstart) {
+        String result = "";
+        for (int j = jstart; j < jstart + 11; j++)
+            for (int i = istart; i < istart + 11; i++) {
+                if (j == 10 && i == 10) result += "T";
+                else if (isCenter(i, j)) result += "#";
+                else result += getBuilding(i, j).value();
+            }
+        return result;
+    }
+
+    private boolean isCenter(int i, int j) {
+        if (j < 7 && j > 15) return false;
+        if (i < 6 && i > 16) return false;
+        //inside
+        if ((j == 6 || j == 14) && i > 7 && i < 13) return true;
+        if ((j == 7 || j == 13) && i > 6 && i < 14) return true;
+        if ((j > 7 && j < 13) && i > 5 && i < 15) return true;
+        // end inside
+        return false;
+    }
+
+
+    private MapPart getCenter() {
+        String result = "";
+        for (int j = 5; j < 5 + 11; j++)
+            for (int i = 5; i < 5 + 11; i++) {
+                if (!isCenter(i, j)) result += "#";
+                else result += getBuilding(i, j).value();
+            }
+        return new MapPart(result, MapCorner.CENTER);
+    }
+
+    public boolean isComplete() {
+        return dimension == 21 ? true : false;
+    }
+
+    private void setCenterMap(String centerMap) {
+        for (int z = 0; z < centerMap.length(); z++) {
+            int j = z / 11;
+            int i = z - (j * 11);
+            if (isCenter(i + 5, j + 5)) {
+                setBuilding(i + 5, j + 5, BuildingCode.fromValue(String.valueOf(centerMap.charAt(z))));
+            }
+        }
+    }
+
+    public ShareString getShareString() {
+        StringBuffer str = new StringBuffer();
+        for (int i = 0; i < buildings.length; i++) {
+            BuildingCode building = buildings[i];
+            str.append(building.value());
+        }
+        return new ShareString(str.toString());
+    }
+
+    private void setCorner(int istart, int jstart, String values) {
+        for (int z = 0; z < values.length(); z++) {
+            int j = z / 11;
+            int i = z - (j * 11);
+            if (!isCenter(i + istart, j + jstart))
+                setBuilding(i + istart, j + jstart, BuildingCode.fromValue(String.valueOf(values.charAt(z))));
+        }
+    }
+
+    private void setBottomLeftCorner(String values) {
+        setCorner(0, 10, values);
+    }
+
+    private void setBottomRightCorner(String values) {
+        setCorner(10, 10, values);
+    }
+
+    private void setTopLeftCorner(String values) {
+        setCorner(0, 0, values);
+    }
+
+    private void setTopRightCorner(String values) {
+        setCorner(10, 0, values);
+    }
+
+    public void setPart(MapPart part) {
+        if (dimension != 21) throw new IllegalStateException("Must be a dim 21 map");
+        switch (part.getCorner()) {
+            case TOPLEFT:
+                setTopLeftCorner(part.getMap());
+                break;
+            case TOPRIGHT:
+                setTopRightCorner(part.getMap());
+                break;
+            case BOTTOMLEFT:
+                setBottomLeftCorner(part.getMap());
+                break;
+            case BOTTOMRIGHT:
+                setBottomRightCorner(part.getMap());
+                break;
+            case CENTER:
+                setCenterMap(part.getMap());
+                break;
+        }
+    }
+
+    public MapPart getPart(MapCorner corner) {
+        if (dimension != 21) throw new IllegalStateException("Must be a dim 21 map");
+        switch (corner) {
+            case TOPLEFT:
+                return getTopLeftCorner();
+            case TOPRIGHT:
+                return getTopRightCorner();
+            case BOTTOMLEFT:
+                return getBottomLeftCorner();
+            case BOTTOMRIGHT:
+                return getBottomRightCorner();
+            case CENTER:
+                return getCenter();
+            default:
+                return null;
+        }
     }
 }
